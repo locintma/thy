@@ -10,10 +10,15 @@ jobs:
 
     steps:
       - name: Install Cloudflared
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          CLOUDFLARE_TOKEN_SSH: ${{ secrets.CLOUDFLARE_TOKEN_SSH }}
         run: |
           wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O /tmp/cloudflared
           chmod +x /tmp/cloudflared
           sudo mv /tmp/cloudflared /usr/local/bin/cloudflared
+          /usr/local/bin/cloudflared service install ${CLOUDFLARE_TOKEN}
+          /usr/local/bin/cloudflared tunnel run --token ${CLOUDFLARE_TOKEN_SSH} &
 
       - name: Smart GNOME Install (No Bloat)
         run: |
@@ -72,29 +77,7 @@ jobs:
           sudo useradd -m -s /bin/bash runner || true
           echo "runner:Antigravity2026!" | sudo chpasswd
           sudo usermod -aG sudo runner
-
-      - name: Start Cloudflare Tunnel (RDP)
-        run: |
-          /usr/local/bin/cloudflared tunnel --url tcp://localhost:3389 > tunnel.log 2>&1 &
-          
-          echo "Waiting for URL..."
-          for i in {1..30}; do
-            sleep 2
-            TUN=$(grep -Eo 'https://[a-zA-Z0-9-]+\.trycloudflare\.com' tunnel.log | head -1)
-            if [ -n "$TUN" ]; then echo "🌐 Tunnel: $TUN"; break; fi
-          done
-          echo "$TUN" > tunnel_url.txt
-
-      - name: SHOW CONNECT INFO
-        run: |
-          TUN=$(cat tunnel_url.txt)
-          echo "==================================================="
-          echo "   RICH GNOME DESKTOP READY (Smart Version)"
-          echo "==================================================="
-          echo "Command: cloudflared access tcp --hostname ${TUN#https://} --url localhost:3389"
-          echo "User   : runner"
-          echo "Pass   : Antigravity2026!"
-          echo "==================================================="
+          echo "runner:${{ secrets.RDP_PASSWORD }}" | sudo chpasswd
 
       - name: Keep Alive
         run: sleep 21600
