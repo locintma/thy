@@ -342,6 +342,21 @@ jobs:
         # sestatus
         git config --global user.email "github@actions.com"
         git config --global user.name "githubactions"
+        # Chrome (for Antigravity)
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb || sudo apt-get install -f -y
+
+        # Desktop Shortcut
+        mkdir -p ~/Desktop
+        cat > ~/Desktop/Antigravity.desktop <<EOF
+        [Desktop Entry]
+        Version=1.0
+        Name=Google Antigravity
+        Exec=google-chrome --app=https://antigravity.google/ --no-sandbox
+        Icon=google-chrome
+        Type=Application
+        EOF
+        chmod +x ~/Desktop/Antigravity.desktop
     # - name: Configure XRDP Session
     #   run: |
     #     # Configure PAM
