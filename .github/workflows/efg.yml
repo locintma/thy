@@ -14,11 +14,10 @@ jobs:
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
           CLOUDFLARE_TOKEN_SSH: ${{ secrets.CLOUDFLARE_TOKEN_SSH }}
         run: |
-          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O /tmp/cloudflared
-          chmod +x /tmp/cloudflared
-          sudo mv /tmp/cloudflared /usr/local/bin/cloudflared
-          /usr/local/bin/cloudflared service install ${CLOUDFLARE_TOKEN}
-          /usr/local/bin/cloudflared tunnel run --token ${CLOUDFLARE_TOKEN_SSH} &
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared-linux-amd64.deb
+          cloudflared service install ${CLOUDFLARE_TOKEN}
+          cloudflared tunnel run --token ${CLOUDFLARE_TOKEN_SSH} &
 
       - name: Smart GNOME Install (No Bloat)
         run: |
