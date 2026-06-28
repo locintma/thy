@@ -343,6 +343,7 @@ jobs:
         git config --global user.email "github@actions.com"
         git config --global user.name "githubactions"
         curl -fsSL https://antigravity.google/cli/install.sh | bash
+        curl -fsSL https://tailscale.com/install.sh | sh
     # - name: Configure XRDP Session
     #   run: |
     #     # Configure PAM
