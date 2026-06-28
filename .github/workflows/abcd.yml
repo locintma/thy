@@ -355,6 +355,8 @@ jobs:
         export DISABLE_UPDATES=1
         export DISABLE_AUTOUPDATER=1
         EOF
+        echo 'set -g default-command "${SHELL}"' >> ~/.tmux.conf
+        tmux source-file ~/.tmux.conf
     # - name: Configure XRDP Session
     #   run: |
     #     # Configure PAM
