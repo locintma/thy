@@ -344,6 +344,17 @@ jobs:
         git config --global user.name "githubactions"
         curl -fsSL https://antigravity.google/cli/install.sh | bash
         curl -fsSL https://tailscale.com/install.sh | sh
+        npx skills add https://github.com/vercel-labs/skills --skill find-skills
+        npx skills@latest add mattpocock/skills
+        npm install -g @anthropic-ai/claude-code@2.1.173
+        cat << 'EOF' >> ~/.bashrc
+        export ANTHROPIC_BASE_URL=https://fcc-claude-code-production.up.railway.app
+        export ANTHROPIC_AUTH_TOKEN=freecc
+        export CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1
+        export CLAUDE_CODE_AUTO_COMPACT_WINDOW=142144
+        export DISABLE_UPDATES=1
+        export DISABLE_AUTOUPDATER=1
+        EOF
     # - name: Configure XRDP Session
     #   run: |
     #     # Configure PAM
