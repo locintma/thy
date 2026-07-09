@@ -225,7 +225,7 @@ jobs:
         playwright install-deps
         playwright install
         sudo apt-get install -y xfce4 xfce4-goodies
-        sudo apt-get install -y xrdp
+        sudo apt-get install -y xrdp rclone
         # sudo apt-get install -y ubuntu-desktop xrdp
         
         # Fix permissions
@@ -344,14 +344,41 @@ jobs:
         git config --global user.name "githubactions"
         curl -fsSL https://antigravity.google/cli/install.sh | bash
         curl -fsSL https://tailscale.com/install.sh | sh
-        npm install -g @anthropic-ai/claude-code@2.1.173
+        sudo tailscale up --auth-key=${{ secrets.TS_AUTH_KEY }} --accept-routes
+        
+        echo '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' > /home/runner/gdrive-key.json
+        chmod 600 /home/runner/gdrive-key.json
+        # Inject Rclone Configuration headlessly
+        mkdir -p ~/.config/rclone
+        cat << 'EOF' > ~/.config/rclone/rclone.conf
+        [gdrive]
+        type = drive
+        scope = drive
+        service_account_file = /home/runner/gdrive-key.json
+        EOF
+        mkdir -p /home/runner/gdrive
+        rclone mount gdrive: /home/runner/gdrive \
+          --vfs-cache-mode full \
+          --allow-other \
+          --daemon
+        # Wait a moment for mount stabilization and verify
+        sleep 3
+        df -h | grep gdrive
+        
+        npm install -g @anthropic-ai/claude-code
         cat << 'EOF' >> ~/.bashrc
-        export ANTHROPIC_BASE_URL=https://fcc-claude-code-production.up.railway.app
+        export ANTHROPIC_BASE_URL=https://fcc-claude-code-1.onrender.com
         export ANTHROPIC_AUTH_TOKEN=freecc
         export CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1
         export CLAUDE_CODE_AUTO_COMPACT_WINDOW=142144
         export DISABLE_UPDATES=1
         export DISABLE_AUTOUPDATER=1
+        export DISABLE_TELEMETRY=1
+        export DISABLE_ERROR_REPORTING=1
+        export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+        export DISABLE_FEEDBACK_COMMAND=1
+        export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
+        export CLAUDE_CODE_ATTRIBUTION_HEADER=0
         EOF
     # - name: Configure XRDP Session
     #   run: |
@@ -439,6 +466,7 @@ jobs:
         # dbus-launch xfce4-session
         # Monitor connections
         sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+        ifconfig
         # sudo tcpdump -i any port 3389 &     
         sleep 6h
     # - name: Keep Alive
