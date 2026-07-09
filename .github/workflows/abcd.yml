@@ -362,7 +362,17 @@ jobs:
           --allow-other \
           --daemon
         # Wait a moment for mount stabilization and verify
-        sleep 3
+        echo "Waiting for Google Drive mount to stabilize..."
+        timeout=30
+        while ! mountpoint -q /home/runner/gdrive; do
+          sleep 1
+          timeout=$((timeout - 1))
+          if [ $timeout -le 0 ]; then
+            echo "Error: Mount timed out!"
+            exit 1
+          fi
+        done
+        echo "Mount successful!"
         df -h | grep gdrive
         
         npm install -g @anthropic-ai/claude-code
