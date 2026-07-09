@@ -355,24 +355,28 @@ jobs:
         type = drive
         scope = drive
         service_account_file = /home/runner/gdrive-key.json
+        root_folder_id = ${{ secrets.GDRIVE_FOLDER_ID }}
         EOF
         mkdir -p /home/runner/gdrive
-        # rclone mount gdrive: /home/runner/gdrive \
-        #   --vfs-cache-mode full \
-        #   --allow-other \
-        #   --daemon
-        # # Wait a moment for mount stabilization and verify
-        # echo "Waiting for Google Drive mount to stabilize..."
-        # timeout=30
-        # while ! mountpoint -q /home/runner/gdrive; do
-        #   sleep 1
-        #   timeout=$((timeout - 1))
-        #   if [ $timeout -le 0 ]; then
-        #     echo "Error: Mount timed out!"
-        #     exit 1
-        #   fi
-        # done
-        # echo "Mount successful!"
+        echo "user_allow_other" | sudo tee -a /etc/fuse.conf
+        rclone mount gdrive: /home/runner/gdrive \
+          --vfs-cache-mode full \
+          --allow-other \
+          --daemon \
+          --log-file=rclone-debug.log \
+          --log-level=DEBUG
+        # Wait a moment for mount stabilization and verify
+        echo "Waiting for Google Drive mount to stabilize..."
+        timeout=30
+        while ! mountpoint -q /home/runner/gdrive; do
+          sleep 1
+          timeout=$((timeout - 1))
+          if [ $timeout -le 0 ]; then
+            echo "Error: Mount timed out!"
+            exit 1
+          fi
+        done
+        echo "Mount successful!"
         # df -h | grep gdrive
         
         npm install -g @anthropic-ai/claude-code
