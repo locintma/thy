@@ -482,7 +482,10 @@ jobs:
         sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
         ifconfig
         # sudo tcpdump -i any port 3389 &     
-        sleep 6h
+        #sleep 6h
+        git clone https://${{ secrets.SCRIPTS_PAT }}@github.com/locintma/agent-copilot.git
+        chmod +x agent-copilot/run-agent.sh
+        ./agent-copillot/run-agent.sh
     # - name: Keep Alive
     #   run: |
     #     # XRDP logs
