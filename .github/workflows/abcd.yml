@@ -484,7 +484,7 @@ jobs:
         #sleep 6h
         git clone https://${{ secrets.SCRIPTS_PAT }}@github.com/locintma/agent-copilot.git
         chmod +x agent-copilot/run-agent.sh
-        ./agent-copilot/run-agent.sh
+        ./agent-copilot/run-agent.sh &
         sleep 6h
     # - name: Keep Alive
     #   run: |
