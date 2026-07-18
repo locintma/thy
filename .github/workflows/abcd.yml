@@ -381,7 +381,7 @@ jobs:
         
         npm install -g @anthropic-ai/claude-code
         cat << 'EOF' >> ~/.bashrc
-        export ANTHROPIC_BASE_URL=https://fcc-claude-code-1.onrender.com
+        export ANTHROPIC_BASE_URL=http://localhost:3000
         export ANTHROPIC_AUTH_TOKEN=freecc
         export CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1
         export CLAUDE_CODE_AUTO_COMPACT_WINDOW=142144
@@ -389,7 +389,7 @@ jobs:
         export DISABLE_AUTOUPDATER=1
         export DISABLE_TELEMETRY=1
         export DISABLE_ERROR_REPORTING=1
-        export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+        export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=0
         export DISABLE_FEEDBACK_COMMAND=1
         export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
         export CLAUDE_CODE_ATTRIBUTION_HEADER=0
