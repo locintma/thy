@@ -345,55 +345,6 @@ jobs:
         git config --global user.email "github@actions.com"
         git config --global user.name "githubactions"
         curl -fsSL https://antigravity.google/cli/install.sh | bash
-        
-        # npm install -g @anthropic-ai/claude-code
-        # {
-        #     echo 'export ANTHROPIC_BASE_URL=http://localhost:3000'
-        #     echo 'export ANTHROPIC_AUTH_TOKEN=freecc'
-        #     echo 'export CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1'
-        #     echo 'export CLAUDE_CODE_AUTO_COMPACT_WINDOW=142144'
-        #     echo 'export DISABLE_UPDATES=1'
-        #     echo 'export DISABLE_AUTOUPDATER=1'
-        #     echo 'export DISABLE_TELEMETRY=1'
-        #     echo 'export DISABLE_ERROR_REPORTING=1'
-        #     echo 'export DISABLE_FEEDBACK_COMMAND=1'
-        #     echo 'export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1'
-        #     echo 'export CLAUDE_CODE_ATTRIBUTION_HEADER=0'
-        # } >> ~/.bashrc
-
-        # # if use gdrive, uncomment these
-        # echo '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' > /home/runner/gdrive-key.json
-        # chmod 600 /home/runner/gdrive-key.json
-        # # Inject Rclone Configuration headlessly
-        # mkdir -p ~/.config/rclone
-        # cat << 'EOF' > ~/.config/rclone/rclone.conf
-        # [gdrive]
-        # type = drive
-        # scope = drive
-        # service_account_file = /home/runner/gdrive-key.json
-        # root_folder_id = ${{ secrets.GDRIVE_FOLDER_ID }}
-        # EOF
-        # mkdir -p /home/runner/gdrive
-        # echo "user_allow_other" | sudo tee -a /etc/fuse.conf
-        # rclone mount gdrive: /home/runner/gdrive \
-        #   --vfs-cache-mode full \
-        #   --allow-other \
-        #   --daemon \
-        #   --log-file=rclone-debug.log \
-        #   --log-level=DEBUG
-        # # Wait a moment for mount stabilization and verify
-        # echo "Waiting for Google Drive mount to stabilize..."
-        # timeout=30
-        # while ! mountpoint -q /home/runner/gdrive; do
-        #   sleep 1
-        #   timeout=$((timeout - 1))
-        #   if [ $timeout -le 0 ]; then
-        #     echo "Error: Mount timed out!"
-        #     exit 1
-        #   fi
-        # done
-        # echo "Mount successful!"
-        # # df -h | grep gdrive
 
     # - name: teoceo
     #   run: |
