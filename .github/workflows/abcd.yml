@@ -345,9 +345,7 @@ jobs:
         git config --global user.email "github@actions.com"
         git config --global user.name "githubactions"
         curl -fsSL https://antigravity.google/cli/install.sh | bash
-        curl -fsSL https://tailscale.com/install.sh | sh
-        # sudo tailscale up --auth-key=${{ secrets.TS_AUTH_KEY }} --accept-routes
-
+        
         # npm install -g @anthropic-ai/claude-code
         # {
         #     echo 'export ANTHROPIC_BASE_URL=http://localhost:3000'
@@ -396,6 +394,11 @@ jobs:
         # done
         # echo "Mount successful!"
         # # df -h | grep gdrive
+
+    # - name: teoceo
+    #   run: |
+    #     curl -fsSL https://tailscale.com/install.sh | sh
+    #     sudo tailscale up --auth-key=${{ secrets.TS_AUTH_KEY }} --accept-routes
         
     # - name: Configure XRDP Session
     #   run: |
