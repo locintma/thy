@@ -348,6 +348,21 @@ jobs:
         curl -fsSL https://tailscale.com/install.sh | sh
         sudo tailscale up --auth-key=${{ secrets.TS_AUTH_KEY }} --accept-routes
 
+        npm install -g @anthropic-ai/claude-code
+        cat << 'EOF' >> ~/.bashrc
+        export ANTHROPIC_BASE_URL=http://localhost:3000
+        export ANTHROPIC_AUTH_TOKEN=freecc
+        export CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1
+        export CLAUDE_CODE_AUTO_COMPACT_WINDOW=142144
+        export DISABLE_UPDATES=1
+        export DISABLE_AUTOUPDATER=1
+        export DISABLE_TELEMETRY=1
+        export DISABLE_ERROR_REPORTING=1
+        export DISABLE_FEEDBACK_COMMAND=1
+        export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
+        export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+        EOF
+
         # if use gdrive, uncomment these
         # echo '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' > /home/runner/gdrive-key.json
         # chmod 600 /home/runner/gdrive-key.json
@@ -381,21 +396,6 @@ jobs:
         # done
         # echo "Mount successful!"
         # # df -h | grep gdrive
-        
-        npm install -g @anthropic-ai/claude-code
-        cat << 'EOF' >> ~/.bashrc
-        export ANTHROPIC_BASE_URL=http://localhost:3000
-        export ANTHROPIC_AUTH_TOKEN=freecc
-        export CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1
-        export CLAUDE_CODE_AUTO_COMPACT_WINDOW=142144
-        export DISABLE_UPDATES=1
-        export DISABLE_AUTOUPDATER=1
-        export DISABLE_TELEMETRY=1
-        export DISABLE_ERROR_REPORTING=1
-        export DISABLE_FEEDBACK_COMMAND=1
-        export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
-        export CLAUDE_CODE_ATTRIBUTION_HEADER=0
-        EOF
         
     # - name: Configure XRDP Session
     #   run: |
