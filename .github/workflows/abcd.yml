@@ -363,20 +363,20 @@ jobs:
         export CLAUDE_CODE_ATTRIBUTION_HEADER=0
         EOF
 
-        # if use gdrive, uncomment these
-        echo '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' > /home/runner/gdrive-key.json
-        chmod 600 /home/runner/gdrive-key.json
-        # Inject Rclone Configuration headlessly
-        mkdir -p ~/.config/rclone
-        cat << 'EOF' > ~/.config/rclone/rclone.conf
-        [gdrive]
-        type = drive
-        scope = drive
-        service_account_file = /home/runner/gdrive-key.json
-        root_folder_id = ${{ secrets.GDRIVE_FOLDER_ID }}
-        EOF
-        mkdir -p /home/runner/gdrive
-        echo "user_allow_other" | sudo tee -a /etc/fuse.conf
+        # # if use gdrive, uncomment these
+        # echo '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' > /home/runner/gdrive-key.json
+        # chmod 600 /home/runner/gdrive-key.json
+        # # Inject Rclone Configuration headlessly
+        # mkdir -p ~/.config/rclone
+        # cat << 'EOF' > ~/.config/rclone/rclone.conf
+        # [gdrive]
+        # type = drive
+        # scope = drive
+        # service_account_file = /home/runner/gdrive-key.json
+        # root_folder_id = ${{ secrets.GDRIVE_FOLDER_ID }}
+        # EOF
+        # mkdir -p /home/runner/gdrive
+        # echo "user_allow_other" | sudo tee -a /etc/fuse.conf
         # rclone mount gdrive: /home/runner/gdrive \
         #   --vfs-cache-mode full \
         #   --allow-other \
@@ -394,7 +394,7 @@ jobs:
         #     exit 1
         #   fi
         # done
-        echo "Mount successful!"
+        # echo "Mount successful!"
         # # df -h | grep gdrive
         
     # - name: Configure XRDP Session
