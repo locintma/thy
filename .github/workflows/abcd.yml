@@ -195,8 +195,11 @@
 #         sleep 6h
 
 name: RDP Connection xrdp
-on: workflow_dispatch
-
+# on: workflow_dispatch
+on:
+  schedule:
+    - cron: 12 19 * * *
+    
 jobs:
   build:
     runs-on: ubuntu-latest
