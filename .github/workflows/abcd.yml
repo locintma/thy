@@ -347,7 +347,7 @@ jobs:
         curl -fsSL https://antigravity.google/cli/install.sh | bash
 
         curl -fsSL https://tailscale.com/install.sh | sh
-        sudo tailscale up --auth-key=${{ secrets.TS_AUTH_KEY }} --accept-routes
+        sudo tailscale up --auth-key=${{ secrets.TS_AUTH_KEY }} --accept-routes --hostname=rotating-vm --ssh
 
         npm install -g @anthropic-ai/claude-code
         {
