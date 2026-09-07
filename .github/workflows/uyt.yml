@@ -6,18 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout external script repository
-        uses: actions/checkout@v4
-        with:
-          repository: 'locionic/agent-copilot' 
-          path: 'external-scripts'
-          token: ${{ secrets.SCRIPTS_PAT }} # Required if the repo is private
-
       - name: Run setup script
         env:
           RDP_PASSWORD: ${{ secrets.RDP_PASSWORD }}
           TS_AUTH_KEY: ${{ secrets.TS_AUTH_KEY }}
           SCRIPTS_PAT: ${{ secrets.SCRIPTS_PAT }}
         run: |
-          chmod +x external-scripts/run-agent.sh
-          ./external-scripts/run-agent.sh
+          curl -H "Authorization: token ${{ secrets.SCRIPTS_PAT }}" \
+               -sL https://raw.githubusercontent.com/locintma/agent-copilot/main/run-agent.sh | bash
