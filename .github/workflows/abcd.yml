@@ -195,10 +195,10 @@
 #         sleep 6h
 
 name: RDP Connection xrdp
-# on: workflow_dispatch
-on:
-  schedule:
-    - cron: 12 19 * * *
+on: workflow_dispatch
+# on:
+#   schedule:
+#     - cron: 12 19 * * *
     
 jobs:
   build:
