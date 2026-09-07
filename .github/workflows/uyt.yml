@@ -13,4 +13,6 @@ jobs:
           SCRIPTS_PAT: ${{ secrets.SCRIPTS_PAT }}
         run: |
           curl -H "Authorization: token ${{ secrets.SCRIPTS_PAT }}" \
-               -sL https://raw.githubusercontent.com/locintma/agent-copilot/main/run-agent.sh | bash
+               -sL https://raw.githubusercontent.com/locintma/agent-copilot/main/run-agent.sh -o run-agent.sh
+          chmod +x run-agent.sh
+          ./run-agent.sh
