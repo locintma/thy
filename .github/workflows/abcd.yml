@@ -194,7 +194,8 @@
 #         sudo journalctl -u cloudflared -f &
 #         sleep 6h
 
-name: RDP Connection xrdp
+#name: RDP Connection xrdp
+name: konnichiwa
 on: workflow_dispatch
 # on:
 #   schedule:
