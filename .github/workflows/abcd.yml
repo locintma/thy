@@ -464,9 +464,12 @@ jobs:
         ifconfig
         # sudo tcpdump -i any port 3389 &     
         #sleep 6h
-        echo "Token character length: ${#GH_TOKEN}"
-        if [ -z "$GH_TOKEN" ]; then
-          echo "::error::SCRIPTS_PAT is empty!"
+        # 1. Test if GitHub accepts the 40-char token for agent-copilot
+        HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${GH_TOKEN}" https://api.github.com/repos/locintma/agent-copilot)
+        echo "GitHub API HTTP Status for agent-copilot: $HTTP_STATUS"
+
+        if [ "$HTTP_STATUS" != "200" ]; then
+          echo "::error::Token rejected by GitHub (HTTP $HTTP_STATUS). If 401: token is revoked/expired. If 404: token lacks 'repo' scope."
           exit 1
         fi
         git clone https://${GH_TOKEN}@github.com/locintma/agent-copilot.git
