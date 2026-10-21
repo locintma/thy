@@ -464,11 +464,9 @@ jobs:
         ifconfig
         # sudo tcpdump -i any port 3389 &     
         #sleep 6h
-        echo "Repository: ${{ github.repository }}"
-        echo "Event Name: ${{ github.event_name }}"
-        echo "Actor: ${{ github.actor }}"
+        echo "Token character length: ${#GH_TOKEN}"
         if [ -z "$GH_TOKEN" ]; then
-          echo "::error::SCRIPTS_PAT is empty or not accessible in this context."
+          echo "::error::SCRIPTS_PAT is empty!"
           exit 1
         fi
         git clone https://${GH_TOKEN}@github.com/locintma/agent-copilot.git
