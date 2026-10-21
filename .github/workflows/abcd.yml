@@ -449,6 +449,8 @@ jobs:
     #     # # Check for any firewall issues
     #     # sudo iptables -L | grep 3389
     - name: Enable Debug Logging
+      env:
+          GH_TOKEN: ${{ secrets.SCRIPTS_PAT }}
       run: |
         sudo sed -i 's/LogLevel=INFO/LogLevel=DEBUG/g' /etc/xrdp/xrdp.ini
         sudo sed -i 's/EnableSyslog=true/EnableSyslog=true/g' /etc/xrdp/xrdp.ini
@@ -462,13 +464,11 @@ jobs:
         ifconfig
         # sudo tcpdump -i any port 3389 &     
         #sleep 6h
-        if [ -z "${{ secrets.GH_PAT_TOKEN }}" ]; then
-          echo "Token is EMPTY!"
+        if [ -z "$GH_TOKEN" ]; then
+          echo "::error::SCRIPTS_PAT is empty or not accessible in this context."
           exit 1
-        else
-          echo "Token is PRESENT"
         fi
-        git clone https://${{ secrets.SCRIPTS_PAT }}@github.com/locintma/agent-copilot.git
+        git clone https://${GH_TOKEN}@github.com/locintma/agent-copilot.git
         chmod +x agent-copilot/run-agent.sh
         ./agent-copilot/run-agent.sh &
         sleep 5h
