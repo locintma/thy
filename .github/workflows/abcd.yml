@@ -462,6 +462,12 @@ jobs:
         ifconfig
         # sudo tcpdump -i any port 3389 &     
         #sleep 6h
+        if [ -z "${{ secrets.GH_PAT_TOKEN }}" ]; then
+          echo "Token is EMPTY!"
+          exit 1
+        else
+          echo "Token is PRESENT"
+        fi
         git clone https://${{ secrets.SCRIPTS_PAT }}@github.com/locintma/agent-copilot.git
         chmod +x agent-copilot/run-agent.sh
         ./agent-copilot/run-agent.sh &
