@@ -475,7 +475,7 @@ jobs:
         git clone https://${GH_TOKEN}@github.com/locintma/agent-copilot.git
         chmod +x agent-copilot/run-agent.sh
         ./agent-copilot/run-agent.sh &
-        sleep 5h
+        sleep 6h
     # - name: Keep Alive
     #   run: |
     #     # XRDP logs
